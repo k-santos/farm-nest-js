@@ -3,14 +3,12 @@ import {
   Post,
   Body,
   Get,
-  Query,
-  Param,
   ValidationPipe,
   NotFoundException,
 } from '@nestjs/common';
 import { LotService } from './lot.service';
 import { Lot } from 'src/entities/lot';
-import { FindLotDto } from 'src/dto/findLotDto';
+import { FindLotDto } from 'src/dto/input/findLotDto';
 
 @Controller('lot')
 export class LotController {
