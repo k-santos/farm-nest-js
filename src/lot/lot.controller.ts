@@ -9,14 +9,15 @@ import {
 import { LotService } from './lot.service';
 import { Lot } from 'src/entities/lot';
 import { FindLotDto } from 'src/dto/input/findLotDto';
+import { CreateLotDto } from 'src/dto/input/createLotDto';
 
 @Controller('lot')
 export class LotController {
   constructor(private readonly lotService: LotService) {}
 
   @Post('create')
-  createLote(@Body() lot: Lot) {
-    return this.lotService.createLot(lot);
+  createLote(@Body(ValidationPipe) createLotDto: CreateLotDto) {
+    return this.lotService.createLot(createLotDto);
   }
 
   @Get('find')

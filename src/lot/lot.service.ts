@@ -3,6 +3,8 @@ import { Lot } from 'src/entities/lot';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { Redis } from 'ioredis';
 import { FindLotDto } from 'src/dto/input/findLotDto';
+import { CreateLotDto } from 'src/dto/input/createLotDto';
+import { lots } from 'src/database/seed';
 
 @Injectable()
 export class LotService {
@@ -10,8 +12,9 @@ export class LotService {
 
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
-  createLot(lot: Lot) {
-    this.lots.push(lot);
+  createLot(createLotDto: CreateLotDto) {
+    const lot = new Lot(createLotDto.name, createLotDto.code);
+    lots.push(lot);
     return lot;
   }
 
