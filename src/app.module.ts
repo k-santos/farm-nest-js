@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { LotModule } from './lot/lot.module';
+import { AnimalModule } from './animal/animal.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { LotModule } from './lot/lot.module';
       inject: [ConfigService],
     }),
     LotModule,
+    AnimalModule,
   ],
   controllers: [],
   providers: [],
