@@ -10,4 +10,9 @@ export class LotController {
   createLote(@Body() lot: Lot) {
     return this.lotService.createLot(lot);
   }
+
+  @Get(':code')
+  async findLote(@Param('code') code: string) {
+    return await this.lotService.findLot(code);
+  }
 }
