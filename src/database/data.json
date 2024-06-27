@@ -1,0 +1,92 @@
+[
+    {
+        "name": "LOF OF COW AND BULL",
+        "code": "1",
+        "animals": [
+            {
+                "name": "COW",
+                "code": "1"
+            },
+            {
+                "name": "COW",
+                "code": "2"
+            },
+            {
+                "name": "COW",
+                "code": "3"
+            },
+            {
+                "name": "COW",
+                "code": "4"
+            },
+            {
+                "name": "COW",
+                "code": "5"
+            },
+            {
+                "name": "COW",
+                "code": "6"
+            },
+            {
+                "name": "COW",
+                "code": "7"
+            },
+            {
+                "name": "BULL",
+                "code": "8"
+            }
+        ]
+    },
+    {
+        "name": "LOT OF ROOSTER AND CHICKEN",
+        "code": "2",
+        "animals": [
+            {
+                "name": "CHICKEN",
+                "code": "9"
+            },
+            {
+                "name": "CHICKEN",
+                "code": "10"
+            },
+            {
+                "name": "CHICKEN",
+                "code": "11"
+            },
+            {
+                "name": "CHICKEN",
+                "code": "12"
+            },
+            {
+                "name": "CHICKEN",
+                "code": "13"
+            },
+            {
+                "name": "CHICKEN",
+                "code": "14"
+            },
+            {
+                "name": "CHICKEN",
+                "code": "15"
+            },
+            {
+                "name": "ROOSTER",
+                "code": "16"
+            }
+        ]
+    },
+    {
+        "name": "LOT OF PIG AND DUCK",
+        "code": "3",
+        "animals": [
+            {
+                "name": "DUCK",
+                "code": "17"
+            },
+            {
+                "name": "PIG",
+                "code": "18"
+            }
+        ]
+    }
+]
