@@ -1,6 +1,16 @@
-import { Controller, Post, Body, Get, Query, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Query,
+  Param,
+  ValidationPipe,
+  NotFoundException,
+} from '@nestjs/common';
 import { LotService } from './lot.service';
 import { Lot } from 'src/entities/lot';
+import { FindLotDto } from 'src/dto/findLotDto';
 
 @Controller('lot')
 export class LotController {
@@ -11,8 +21,12 @@ export class LotController {
     return this.lotService.createLot(lot);
   }
 
-  @Get(':code')
-  async findLote(@Param('code') code: string) {
-    return await this.lotService.findLot(code);
+  @Get('find')
+  async findLot(@Body(ValidationPipe) findLotDto: FindLotDto) {
+    const lot = await this.lotService.findLot(findLotDto);
+    if (!lot) {
+      throw new NotFoundException('Lot not found');
+    }
+    return lot;
   }
 }

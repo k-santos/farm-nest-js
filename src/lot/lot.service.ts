@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Lot } from 'src/entities/lot';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { Redis } from 'ioredis';
+import { FindLotDto } from 'src/dto/findLotDto';
 
 @Injectable()
 export class LotService {
@@ -14,16 +15,38 @@ export class LotService {
     return lot;
   }
 
-  async findLot(code: string) {
-    const cachedLot = await this.redisClient.get(`lot:${code}`);
-    if (cachedLot) {
-      return JSON.parse(cachedLot) as Lot;
-    }
-    const lot = this.lots.find((l) => l.code === code);
-    if (lot) {
-      await this.redisClient.set(`lot:${code}`, JSON.stringify(lot));
+  async findLot(findLotDto: FindLotDto) {
+    if (findLotDto.name) {
+      const cachedLot = await this.redisClient.get(`lot:${findLotDto.name}`);
+      if (cachedLot) {
+        return JSON.parse(cachedLot) as Lot;
+      }
+      const lot = this.lots.find((l) => findLotDto.name === l.name);
+      if (lot) {
+        await this.redisClient.set(
+          `lot:${findLotDto.name}`,
+          JSON.stringify(lot),
+        );
+        return lot;
+      }
+      return undefined;
     }
 
-    return lot;
+    if (findLotDto.code) {
+      const cachedLot = await this.redisClient.get(`lot:${findLotDto.code}`);
+      if (cachedLot) {
+        return JSON.parse(cachedLot) as Lot;
+      }
+
+      const lot = this.lots.find((l) => findLotDto.code === l.code);
+      if (lot) {
+        await this.redisClient.set(
+          `lot:${findLotDto.code}`,
+          JSON.stringify(lot),
+        );
+        return lot;
+      }
+      return undefined;
+    }
   }
 }

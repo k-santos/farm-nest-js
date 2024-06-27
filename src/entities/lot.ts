@@ -1,8 +1,8 @@
 export class Lot {
   private _name: string;
-  private _code: string;
+  private _code: number;
 
-  constructor(name: string, code: string) {
+  constructor(name: string, code: number) {
     this._name = name;
     this._code = code;
   }
@@ -15,11 +15,11 @@ export class Lot {
     this._name = value;
   }
 
-  get code(): string {
+  get code(): number {
     return this._code;
   }
 
-  set code(value: string) {
+  set code(value: number) {
     this._code = value;
   }
 }
