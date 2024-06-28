@@ -79,7 +79,7 @@ export class AnimalService {
     }
 
     if (animals) {
-      await this.redis.set(cacheKey, JSON.stringify(animals));
+      await this.redis.set(cacheKey, JSON.stringify(animals), 'EX', 7600);
       return animals;
     }
     return undefined;

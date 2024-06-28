@@ -4,7 +4,6 @@ import {
   Body,
   Get,
   ValidationPipe,
-  NotFoundException,
   Delete,
 } from '@nestjs/common';
 import { LotService } from './lot.service';
@@ -23,11 +22,7 @@ export class LotController {
 
   @Get('find')
   async findLot(@Body(ValidationPipe) findLotDto: FindLotDto) {
-    const lot = await this.lotService.findLot(findLotDto);
-    if (!lot) {
-      throw new NotFoundException('Lot not found');
-    }
-    return lot;
+    return await this.lotService.findLot(findLotDto);
   }
 
   @Delete()

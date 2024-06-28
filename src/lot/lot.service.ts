@@ -35,7 +35,6 @@ export class LotService {
         `lots:${findLotDto.criteria}:${findLotDto.order}:${findLotDto.value}`,
       );
       if (cachedLot) {
-        console.log('pegou no cache');
         return JSON.parse(cachedLot) as Lot[];
       }
       const foundLots = lots.filter((l) => l.name.includes(findLotDto.value));
@@ -50,8 +49,9 @@ export class LotService {
         await this.redis.set(
           `lots:${findLotDto.criteria}:${findLotDto.order}:${findLotDto.value}`,
           JSON.stringify(lotsSorted),
+          'EX',
+          7600,
         );
-        console.log('não pegou no cache');
         return lotsSorted;
       }
       throw new NotFoundException('Lot not found');
@@ -72,6 +72,8 @@ export class LotService {
         await this.redis.set(
           `lots:${findLotDto.criteria}:${findLotDto.order}:${findLotDto.value}`,
           JSON.stringify(lot),
+          'EX',
+          7600,
         );
         return lot;
       }
@@ -80,7 +82,6 @@ export class LotService {
   }
 
   async deleteLot(deleteLotDto: DeleteLotDto) {
-    console.log(deleteLotDto.code);
     const lotIndex = lots.findIndex(
       (lot) => lot.code === (deleteLotDto.code as unknown as number),
     );
