@@ -5,6 +5,7 @@ import { Redis } from 'ioredis';
 import { FindLotDto } from 'src/dto/input/findLotDto';
 import { CreateLotDto } from 'src/dto/input/createLotDto';
 import { lots } from 'src/database/seed';
+import { FindAllLotsDto } from 'src/dto/input/findAllLotsDto';
 
 @Injectable()
 export class LotService {
@@ -51,5 +52,27 @@ export class LotService {
       }
       return undefined;
     }
+  }
+
+  async findAllLots(findAllLotsDto: FindAllLotsDto) {
+    if (!findAllLotsDto.order) {
+      findAllLotsDto.order = 'ASC';
+    }
+    if (!findAllLotsDto.criteria) {
+      findAllLotsDto.criteria = 'NAME';
+    }
+
+    return lots.sort((a, b) => {
+      if (findAllLotsDto.order == 'ASC') {
+        if (findAllLotsDto.criteria === 'NAME') {
+          return a.name.localeCompare(b.name);
+        }
+        return a.code - b.code;
+      }
+      if (findAllLotsDto.criteria === 'NAME') {
+        return b.name.localeCompare(a.name);
+      }
+      return b.code - a.code;
+    });
   }
 }

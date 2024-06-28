@@ -9,6 +9,7 @@ import {
 import { LotService } from './lot.service';
 import { FindLotDto } from 'src/dto/input/findLotDto';
 import { CreateLotDto } from 'src/dto/input/createLotDto';
+import { FindAllLotsDto } from 'src/dto/input/findAllLotsDto';
 
 @Controller('lot')
 export class LotController {
@@ -26,5 +27,10 @@ export class LotController {
       throw new NotFoundException('Lot not found');
     }
     return lot;
+  }
+
+  @Get('findAll')
+  async findAllLots(@Body(ValidationPipe) findAllLotsDto: FindAllLotsDto) {
+    return await this.lotService.findAllLots(findAllLotsDto);
   }
 }
