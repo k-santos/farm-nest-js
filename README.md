@@ -14,7 +14,7 @@ npm run start:dev
 <pre><code>
 npm run tests
 </code></pre>
-<h2> Tests <h2>
+<h2> Checking endpoints <h2>
 
 <h3>Creating a LOT</h3>
 
@@ -50,3 +50,12 @@ npm run tests
 
 ![image](https://github.com/k-santos/farm-nest-js/assets/143345722/e3da9ac0-357f-4562-b1b9-b78f7c96d86e)
 
+<h1>Technologies used</h1>
+<ul>
+  <li>NestJS</li>    
+  <li>Typescript</li>
+  <li>Redis</li>  
+  <li>Jest</li>
+  <li>Insomnia</li>
+  <li>Docker</li>
+</ul>
