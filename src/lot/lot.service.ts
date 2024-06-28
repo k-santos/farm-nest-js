@@ -3,14 +3,14 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Lot } from 'src/entities/lot';
+import { Lot } from '../entities/lot';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { Redis } from 'ioredis';
-import { lots } from 'src/database/seed';
-import { CreateLotDto } from 'src/dto/input/lot/createLotDto';
-import { FindLotDto } from 'src/dto/input/lot/findLotDto';
-import { DeleteLotDto } from 'src/dto/input/lot/deleteLotDto';
-import { clearCache } from 'src/util/redis';
+import { lots } from '../database/seed';
+import { CreateLotDto } from '../dto/input/lot/createLotDto';
+import { FindLotDto } from '../dto/input/lot/findLotDto';
+import { DeleteLotDto } from '../dto/input/lot/deleteLotDto';
+import { clearCache } from '../util/redis';
 
 @Injectable()
 export class LotService {

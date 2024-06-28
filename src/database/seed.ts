@@ -1,5 +1,5 @@
-import { Animal } from 'src/entities/animal';
-import { Lot } from 'src/entities/lot';
+import { Animal } from '../entities/animal';
+import { Lot } from '../entities/lot';
 
 export const lots: Lot[] = [];
 

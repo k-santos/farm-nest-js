@@ -13,7 +13,7 @@ function readDataFromFile(filePath: string) {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   await app.listen(3000);
-  const dataPath = join(__dirname, '..', 'src/database', 'data.json');
+  const dataPath = join(__dirname, '..', '../database', 'data.json');
   const data = readDataFromFile(dataPath);
   seedData(data);
 }

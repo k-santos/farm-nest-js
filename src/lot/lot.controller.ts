@@ -8,9 +8,9 @@ import {
   Delete,
 } from '@nestjs/common';
 import { LotService } from './lot.service';
-import { CreateLotDto } from 'src/dto/input/lot/createLotDto';
-import { FindLotDto } from 'src/dto/input/lot/findLotDto';
-import { DeleteLotDto } from 'src/dto/input/lot/deleteLotDto';
+import { CreateLotDto } from '../dto/input/lot/createLotDto';
+import { FindLotDto } from '../dto/input/lot/findLotDto';
+import { DeleteLotDto } from '../dto/input/lot/deleteLotDto';
 
 @Controller('lot')
 export class LotController {
