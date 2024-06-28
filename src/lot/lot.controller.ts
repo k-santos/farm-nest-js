@@ -16,8 +16,8 @@ export class LotController {
   constructor(private readonly lotService: LotService) {}
 
   @Post('create')
-  createLote(@Body(ValidationPipe) createLotDto: CreateLotDto) {
-    return this.lotService.createLot(createLotDto);
+  async createLote(@Body(ValidationPipe) createLotDto: CreateLotDto) {
+    return await this.lotService.createLot(createLotDto);
   }
 
   @Get('find')

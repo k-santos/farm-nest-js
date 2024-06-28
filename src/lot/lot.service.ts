@@ -11,7 +11,7 @@ import { FindAllLotsDto } from 'src/dto/input/findAllLotsDto';
 export class LotService {
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
-  createLot(createLotDto: CreateLotDto) {
+  async createLot(createLotDto: CreateLotDto) {
     const existsLot = lots.find(
       (lot) => lot.code === createLotDto.code || lot.name === createLotDto.name,
     );
@@ -20,6 +20,7 @@ export class LotService {
     }
     const lot = new Lot(createLotDto.name, createLotDto.code);
     lots.push(lot);
+    await this.invalidateFindAllLotsCache();
     return lot;
   }
 
@@ -82,5 +83,19 @@ export class LotService {
 
     await this.redis.set(cacheKey, JSON.stringify(lotsSorted));
     return lotsSorted;
+  }
+
+  private async invalidateFindAllLotsCache() {
+    const criteria = ['NAME', 'CODE'];
+    const orders = ['ASC', 'DESC'];
+
+    for (const criterion of criteria) {
+      for (const order of orders) {
+        const keys = await this.redis.keys(`lots:${criterion}:${order}`);
+        if (keys.length > 0) {
+          await this.redis.del(keys);
+        }
+      }
+    }
   }
 }
