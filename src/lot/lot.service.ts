@@ -31,31 +31,52 @@ export class LotService {
   }
 
   async findLot(findLotDto: FindLotDto) {
-    if (findLotDto.name) {
-      const cachedLot = await this.redis.get(`lot:${findLotDto.name}`);
+    if (findLotDto.criteria === 'NAME') {
+      const cachedLot = await this.redis.get(
+        `lots:${findLotDto.criteria}:${findLotDto.order}:${findLotDto.value}`,
+      );
       if (cachedLot) {
-        return JSON.parse(cachedLot) as Lot;
+        console.log('pegou no cache');
+        return JSON.parse(cachedLot) as Lot[];
       }
-      const lot = lots.find((l) => findLotDto.name === l.name);
-      if (lot) {
-        await this.redis.set(`lot:${findLotDto.name}`, JSON.stringify(lot));
-        return lot;
+      const foundLots = lots.filter((l) => l.name.includes(findLotDto.value));
+      if (foundLots) {
+        const lotsSorted = foundLots.sort((a, b) => {
+          if (findLotDto.order === 'ASC') {
+            return a.name.localeCompare(b.name);
+          }
+          return b.name.localeCompare(a.name);
+        });
+
+        await this.redis.set(
+          `lots:${findLotDto.criteria}:${findLotDto.order}:${findLotDto.value}`,
+          JSON.stringify(lotsSorted),
+        );
+        console.log('não pegou no cache');
+        return lotsSorted;
       }
-      return undefined;
+      throw new NotFoundException('Lot not found');
     }
 
-    if (findLotDto.code) {
-      const cachedLot = await this.redis.get(`lot:${findLotDto.code}`);
+    if (findLotDto.criteria === 'CODE') {
+      const cachedLot = await this.redis.get(
+        `lots:${findLotDto.criteria}:${findLotDto.order}:${findLotDto.value}`,
+      );
       if (cachedLot) {
         return JSON.parse(cachedLot) as Lot;
       }
 
-      const lot = lots.find((l) => findLotDto.code === l.code);
+      const lot = lots.find(
+        (l) => (findLotDto.value as unknown as number) === l.code,
+      );
       if (lot) {
-        await this.redis.set(`lot:${findLotDto.code}`, JSON.stringify(lot));
+        await this.redis.set(
+          `lots:${findLotDto.criteria}:${findLotDto.order}:${findLotDto.value}`,
+          JSON.stringify(lot),
+        );
         return lot;
       }
-      return undefined;
+      throw new NotFoundException('Lot not found');
     }
   }
 

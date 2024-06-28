@@ -1,10 +1,16 @@
-import { IsNotEmpty, ValidateIf, IsNumberString } from 'class-validator';
+import { IsNotEmpty, IsString, IsIn } from 'class-validator';
 
 export class FindLotDto {
-  @ValidateIf((obj: FindLotDto) => !obj.code && !obj.name)
-  @IsNotEmpty({ message: 'Name or code should be provided' })
-  name: string | null;
+  @IsIn(['NAME', 'CODE'], {
+    message: 'Criteria must be either NAME or CODE',
+  })
+  @IsString()
+  criteria: string | null;
 
-  @IsNumberString()
-  code: number | null;
+  @IsIn(['ASC', 'DESC'], { message: 'Order must be either ASC or DESC' })
+  @IsString()
+  order: string | null;
+
+  @IsNotEmpty()
+  value: string;
 }
