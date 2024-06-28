@@ -7,6 +7,7 @@ import { OutputFindAnimalDto } from 'src/dto/output/resultFindAnimalDto';
 import { CreateAnimalDto } from 'src/dto/input/animal/createAnimalDto';
 import { DeleteAnimalDto } from 'src/dto/input/animal/deleteAnimalDto';
 import { FindAnimalDto } from 'src/dto/input/animal/findAnimalDto';
+import { clearCache } from 'src/util/redis';
 
 @Injectable()
 export class AnimalService {
@@ -26,7 +27,7 @@ export class AnimalService {
     }
     const animal = new Animal(createAnimalDto.name, createAnimalDto.code);
     foundLot.addAnimal(animal);
-    await this.clearCache();
+    await clearCache(this.redis);
     return animal;
   }
 
@@ -41,7 +42,7 @@ export class AnimalService {
         (animal) => animal.code === (deleteAnimalDto.code as unknown as number),
       );
       lot.removeAnimal(animal.code);
-      await this.clearCache();
+      await clearCache(this.redis);
       return animal;
     }
     return undefined;
@@ -85,18 +86,6 @@ export class AnimalService {
       return animals;
     }
     return undefined;
-  }
-
-  async clearCache() {
-    let keys = await this.redis.keys('animals:*');
-    if (keys.length > 0) {
-      await this.redis.del(keys);
-    }
-
-    keys = await this.redis.keys('lots:*');
-    if (keys.length > 0) {
-      await this.redis.del(keys);
-    }
   }
 
   private findAnimalsByName(name: string, order: string) {

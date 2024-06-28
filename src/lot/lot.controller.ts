@@ -5,11 +5,13 @@ import {
   Get,
   ValidationPipe,
   NotFoundException,
+  Delete,
 } from '@nestjs/common';
 import { LotService } from './lot.service';
 import { CreateLotDto } from 'src/dto/input/lot/createLotDto';
 import { FindLotDto } from 'src/dto/input/lot/findLotDto';
 import { FindAllLotsDto } from 'src/dto/input/lot/findAllLotsDto';
+import { DeleteLotDto } from 'src/dto/input/lot/deleteLotDto';
 
 @Controller('lot')
 export class LotController {
@@ -32,5 +34,10 @@ export class LotController {
   @Get('findAll')
   async findAllLots(@Body(ValidationPipe) findAllLotsDto: FindAllLotsDto) {
     return await this.lotService.findAllLots(findAllLotsDto);
+  }
+
+  @Delete()
+  async deleteLot(@Body(ValidationPipe) deleteLotDto: DeleteLotDto) {
+    return await this.lotService.deleteLot(deleteLotDto);
   }
 }
