@@ -21,7 +21,7 @@ export class LotService {
       (lot) => lot.code === createLotDto.code || lot.name === createLotDto.name,
     );
     if (existsLot) {
-      throw new NotFoundException('Lot already exists');
+      throw new BadRequestException('Lot already exists');
     }
     const lot = new Lot(createLotDto.name, createLotDto.code);
     lots.push(lot);
