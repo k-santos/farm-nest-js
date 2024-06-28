@@ -4,6 +4,8 @@ import { lots } from 'src/database/seed';
 import { Animal } from 'src/entities/animal';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { Redis } from 'ioredis';
+import { FindAnimalDto } from 'src/dto/input/findAnimalDto';
+import { OutputFindAnimalDto } from 'src/dto/output/resultFindAnimalDto';
 
 @Injectable()
 export class AnimalService {
@@ -25,6 +27,43 @@ export class AnimalService {
     foundLot.addAnimal(animal);
     await this.invalidateFindAllLotsCache();
     return animal;
+  }
+
+  async findAnimals(findAnimalDto: FindAnimalDto) {
+    if (!findAnimalDto.criteria) {
+      findAnimalDto.criteria = 'NAME';
+    }
+
+    if (!findAnimalDto.order) {
+      findAnimalDto.order = 'ASC';
+    }
+
+    if (findAnimalDto.criteria === 'NAME') {
+      const result: OutputFindAnimalDto[] = lots
+        .map((lot) => {
+          const animals = lot.animals.filter((animal) =>
+            animal.name.includes(findAnimalDto.value),
+          );
+          return animals.map((animal) => {
+            return {
+              lotName: lot.name,
+              lotCode: lot.code,
+              name: animal.name,
+              code: animal.code,
+            };
+          });
+        })
+        .flat();
+
+      const resultSorted = result.sort((a, b) => {
+        if (findAnimalDto.order === 'ASC') {
+          return a.name.localeCompare(b.name);
+        }
+        return b.name.localeCompare(a.name);
+      });
+
+      return resultSorted;
+    }
   }
 
   private async invalidateFindAllLotsCache() {
