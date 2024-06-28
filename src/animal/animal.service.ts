@@ -64,6 +64,31 @@ export class AnimalService {
 
       return resultSorted;
     }
+
+    if (findAnimalDto.criteria === 'LOT_NAME') {
+      const result: OutputFindAnimalDto[] = lots
+        .filter((lot) => lot.name.includes(findAnimalDto.value))
+        .map((lot) => {
+          return lot.animals.map((animal) => {
+            return {
+              lotName: lot.name,
+              lotCode: lot.code,
+              name: animal.name,
+              code: animal.code,
+            };
+          });
+        })
+        .flat();
+
+      const resultSorted = result.sort((a, b) => {
+        if (findAnimalDto.order === 'ASC') {
+          return a.lotName.localeCompare(b.lotName);
+        }
+        return b.lotName.localeCompare(a.lotName);
+      });
+
+      return resultSorted;
+    }
   }
 
   private async invalidateFindAllLotsCache() {

@@ -5,8 +5,8 @@ export class FindAnimalDto {
   @IsString()
   order: string | null;
 
-  @IsIn(['NAME', 'CODE', 'LOTE_NAME', 'LOTE_CODE'], {
-    message: 'Criteria must be either NAME, CODE, LOTE_NAME OR LOTE_CODE',
+  @IsIn(['NAME', 'CODE', 'LOT_NAME', 'LOT_CODE'], {
+    message: 'Criteria must be either NAME, CODE, LOT_NAME OR LOT_CODE',
   })
   @IsString()
   criteria: string | null;
