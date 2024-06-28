@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Lot } from 'src/entities/lot';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { Redis } from 'ioredis';
@@ -13,6 +13,12 @@ export class LotService {
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
   createLot(createLotDto: CreateLotDto) {
+    const existsLot = lots.find(
+      (lot) => lot.code === createLotDto.code || lot.name === createLotDto.name,
+    );
+    if (existsLot) {
+      throw new NotFoundException('Lot already exists');
+    }
     const lot = new Lot(createLotDto.name, createLotDto.code);
     lots.push(lot);
     return lot;

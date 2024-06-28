@@ -7,7 +7,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { LotService } from './lot.service';
-import { Lot } from 'src/entities/lot';
 import { FindLotDto } from 'src/dto/input/findLotDto';
 import { CreateLotDto } from 'src/dto/input/createLotDto';
 
