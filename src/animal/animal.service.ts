@@ -26,8 +26,7 @@ export class AnimalService {
     }
     const animal = new Animal(createAnimalDto.name, createAnimalDto.code);
     foundLot.addAnimal(animal);
-    await this.invalidateFindAllLotsCache();
-    await this.clearAnimalCache();
+    await this.clearCache();
     return animal;
   }
 
@@ -42,7 +41,7 @@ export class AnimalService {
         (animal) => animal.code === (deleteAnimalDto.code as unknown as number),
       );
       lot.removeAnimal(animal.code);
-      await this.clearAnimalCache();
+      await this.clearCache();
       return animal;
     }
     return undefined;
@@ -88,22 +87,13 @@ export class AnimalService {
     return undefined;
   }
 
-  private async invalidateFindAllLotsCache() {
-    const criteria = ['NAME', 'CODE'];
-    const orders = ['ASC', 'DESC'];
-
-    for (const criterion of criteria) {
-      for (const order of orders) {
-        const keys = await this.redis.keys(`lots:${criterion}:${order}`);
-        if (keys.length > 0) {
-          await this.redis.del(keys);
-        }
-      }
+  async clearCache() {
+    let keys = await this.redis.keys('animals:*');
+    if (keys.length > 0) {
+      await this.redis.del(keys);
     }
-  }
 
-  async clearAnimalCache() {
-    const keys = await this.redis.keys('animals:*');
+    keys = await this.redis.keys('lots:*');
     if (keys.length > 0) {
       await this.redis.del(keys);
     }
