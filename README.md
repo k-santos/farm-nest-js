@@ -1,73 +1,30 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<h2> Tests <h2>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<h3>Creating a LOT</h3>
 
-## Description
+![image](https://github.com/k-santos/farm-nest-js/assets/143345722/32fa0b95-d5bb-46fc-b141-e56baefb463a)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<h3>Adding an Animal to this lot</h3>
 
-## Installation
+![image](https://github.com/k-santos/farm-nest-js/assets/143345722/6b353a2c-0bae-4075-9ef4-9aed7d0d2030)
 
-```bash
-$ npm install
-```
+<h3> Trying to create another LOT with same name</h3>
 
-## Running the app
+![image](https://github.com/k-santos/farm-nest-js/assets/143345722/9b355317-53d4-4584-b8ca-8c300024c6a1)
 
-```bash
-# development
-$ npm run start
+<h3>Creating another LOT</h3>
 
-# watch mode
-$ npm run start:dev
+![image](https://github.com/k-santos/farm-nest-js/assets/143345722/fdee3042-1a42-42e9-bda4-a3f1fc943b6e)
 
-# production mode
-$ npm run start:prod
-```
+<h3>Deleting an animal</h3>
 
-## Test
+![image](https://github.com/k-santos/farm-nest-js/assets/143345722/5b81f5e7-0caf-463d-892f-55d39d48c3c4)
 
-```bash
-# unit tests
-$ npm run test
+<h3>Deleting a lot </h3>
 
-# e2e tests
-$ npm run test:e2e
+![image](https://github.com/k-santos/farm-nest-js/assets/143345722/c647e1ab-762c-40cb-b9a7-10cf7e015d64)
 
-# test coverage
-$ npm run test:cov
-```
+<h3>List LOT by name </h3>
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+![image](https://github.com/k-santos/farm-nest-js/assets/143345722/5bcb1bd4-9f7e-4e38-bdb3-b778c1883da0)
