@@ -39,94 +39,22 @@ export class AnimalService {
     }
 
     if (findAnimalDto.criteria === 'NAME') {
-      const result: OutputFindAnimalDto[] = lots
-        .map((lot) => {
-          const animals = lot.animals.filter((animal) =>
-            animal.name.includes(findAnimalDto.value),
-          );
-          return animals.map((animal) => {
-            return {
-              lotName: lot.name,
-              lotCode: lot.code,
-              name: animal.name,
-              code: animal.code,
-            };
-          });
-        })
-        .flat();
-
-      const resultSorted = result.sort((a, b) => {
-        if (findAnimalDto.order === 'ASC') {
-          return a.name.localeCompare(b.name);
-        }
-        return b.name.localeCompare(a.name);
-      });
-
-      return resultSorted;
+      return this.findAnimalsByName(findAnimalDto.value, findAnimalDto.order);
     }
 
     if (findAnimalDto.criteria === 'LOT_NAME') {
-      const result: OutputFindAnimalDto[] = lots
-        .filter((lot) => lot.name.includes(findAnimalDto.value))
-        .map((lot) => {
-          return lot.animals.map((animal) => {
-            return {
-              lotName: lot.name,
-              lotCode: lot.code,
-              name: animal.name,
-              code: animal.code,
-            };
-          });
-        })
-        .flat();
-
-      const resultSorted = result.sort((a, b) => {
-        if (findAnimalDto.order === 'ASC') {
-          return a.lotName.localeCompare(b.lotName);
-        }
-        return b.lotName.localeCompare(a.lotName);
-      });
-
-      return resultSorted;
+      return this.findAnimalsByLotName(
+        findAnimalDto.value,
+        findAnimalDto.order,
+      );
     }
 
     if (findAnimalDto.criteria === 'CODE') {
-      const result = lots.find((lot) =>
-        lot.animals.find(
-          (animal) =>
-            animal.code === (findAnimalDto.value as unknown as number),
-        ),
-      );
-      if (result) {
-        const animal = result.animals.find(
-          (animal) =>
-            animal.code === (findAnimalDto.value as unknown as number),
-        );
-        return {
-          lotName: result.name,
-          lotCode: result.code,
-          name: animal.name,
-          code: animal.code,
-        };
-      }
+      return this.findAnimalByCode(findAnimalDto.value);
     }
 
     if (findAnimalDto.criteria === 'LOT_CODE') {
-      const result = lots.find(
-        (lot) => lot.code === (findAnimalDto.value as unknown as number),
-      );
-      if (result) {
-        return result.animals
-          .map((animal) => {
-            return {
-              lotName: result.name,
-              lotCode: result.code,
-              name: animal.name,
-              code: animal.code,
-            };
-          })
-          .flat();
-      }
+      return this.findAnimalsByLotCode(findAnimalDto.value);
     }
   }
 
@@ -141,6 +69,93 @@ export class AnimalService {
           await this.redis.del(keys);
         }
       }
+    }
+  }
+
+  private findAnimalsByName(name: string, order: string) {
+    const result: OutputFindAnimalDto[] = lots
+      .map((lot) => {
+        const animals = lot.animals.filter((animal) =>
+          animal.name.includes(name),
+        );
+        return animals.map((animal) => {
+          return {
+            lotName: lot.name,
+            lotCode: lot.code,
+            name: animal.name,
+            code: animal.code,
+          };
+        });
+      })
+      .flat();
+
+    const resultSorted = result.sort((a, b) => {
+      if (order === 'ASC') {
+        return a.name.localeCompare(b.name);
+      }
+      return b.name.localeCompare(a.name);
+    });
+
+    return resultSorted;
+  }
+
+  private findAnimalsByLotName(lotName: string, order: string) {
+    const result: OutputFindAnimalDto[] = lots
+      .filter((lot) => lot.name.includes(lotName))
+      .map((lot) => {
+        return lot.animals.map((animal) => {
+          return {
+            lotName: lot.name,
+            lotCode: lot.code,
+            name: animal.name,
+            code: animal.code,
+          };
+        });
+      })
+      .flat();
+
+    const resultSorted = result.sort((a, b) => {
+      if (order === 'ASC') {
+        return a.lotName.localeCompare(b.lotName);
+      }
+      return b.lotName.localeCompare(a.lotName);
+    });
+
+    return resultSorted;
+  }
+
+  private findAnimalByCode(code: string) {
+    const result = lots.find((lot) =>
+      lot.animals.find((animal) => animal.code === (code as unknown as number)),
+    );
+    if (result) {
+      const animal = result.animals.find(
+        (animal) => animal.code === (code as unknown as number),
+      );
+      return {
+        lotName: result.name,
+        lotCode: result.code,
+        name: animal.name,
+        code: animal.code,
+      };
+    }
+  }
+
+  private findAnimalsByLotCode(lotCode: string) {
+    const result = lots.find(
+      (lot) => lot.code === (lotCode as unknown as number),
+    );
+    if (result) {
+      return result.animals
+        .map((animal) => {
+          return {
+            lotName: result.name,
+            lotCode: result.code,
+            name: animal.name,
+            code: animal.code,
+          };
+        })
+        .flat();
     }
   }
 }
