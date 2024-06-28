@@ -38,24 +38,35 @@ export class AnimalService {
       findAnimalDto.order = 'ASC';
     }
 
-    if (findAnimalDto.criteria === 'NAME') {
-      return this.findAnimalsByName(findAnimalDto.value, findAnimalDto.order);
+    const cacheKey = `animals:${findAnimalDto.criteria}:${findAnimalDto.value}:${findAnimalDto.order}`;
+    const cachedAnimals = await this.redis.get(cacheKey);
+
+    if (cachedAnimals) {
+      return JSON.parse(cachedAnimals);
     }
 
-    if (findAnimalDto.criteria === 'LOT_NAME') {
-      return this.findAnimalsByLotName(
+    let animals;
+    if (findAnimalDto.criteria === 'NAME') {
+      animals = this.findAnimalsByName(
         findAnimalDto.value,
         findAnimalDto.order,
       );
+    } else if (findAnimalDto.criteria === 'LOT_NAME') {
+      animals = this.findAnimalsByLotName(
+        findAnimalDto.value,
+        findAnimalDto.order,
+      );
+    } else if (findAnimalDto.criteria === 'CODE') {
+      animals = this.findAnimalByCode(findAnimalDto.value);
+    } else if (findAnimalDto.criteria === 'LOT_CODE') {
+      animals = this.findAnimalsByLotCode(findAnimalDto.value);
     }
 
-    if (findAnimalDto.criteria === 'CODE') {
-      return this.findAnimalByCode(findAnimalDto.value);
+    if (animals) {
+      await this.redis.set(cacheKey, JSON.stringify(animals));
+      return animals;
     }
-
-    if (findAnimalDto.criteria === 'LOT_CODE') {
-      return this.findAnimalsByLotCode(findAnimalDto.value);
-    }
+    return undefined;
   }
 
   private async invalidateFindAllLotsCache() {
