@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateAnimalDto } from 'src/dto/input/createAnimalDto';
 import { lots } from 'src/database/seed';
 import { Animal } from 'src/entities/animal';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { Redis } from 'ioredis';
-import { FindAnimalDto } from 'src/dto/input/findAnimalDto';
 import { OutputFindAnimalDto } from 'src/dto/output/resultFindAnimalDto';
-import { DeleteAnimalDto } from 'src/dto/input/deleteAnimalDto';
+import { CreateAnimalDto } from 'src/dto/input/animal/createAnimalDto';
+import { DeleteAnimalDto } from 'src/dto/input/animal/deleteAnimalDto';
+import { FindAnimalDto } from 'src/dto/input/animal/findAnimalDto';
 
 @Injectable()
 export class AnimalService {

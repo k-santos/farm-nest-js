@@ -7,9 +7,9 @@ import {
   Delete,
 } from '@nestjs/common';
 import { AnimalService } from './animal.service';
-import { CreateAnimalDto } from 'src/dto/input/createAnimalDto';
-import { FindAnimalDto } from 'src/dto/input/findAnimalDto';
-import { DeleteAnimalDto } from 'src/dto/input/deleteAnimalDto';
+import { CreateAnimalDto } from 'src/dto/input/animal/createAnimalDto';
+import { FindAnimalDto } from 'src/dto/input/animal/findAnimalDto';
+import { DeleteAnimalDto } from 'src/dto/input/animal/deleteAnimalDto';
 
 @Controller('animal')
 export class AnimalController {

@@ -7,9 +7,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { LotService } from './lot.service';
-import { FindLotDto } from 'src/dto/input/findLotDto';
-import { CreateLotDto } from 'src/dto/input/createLotDto';
-import { FindAllLotsDto } from 'src/dto/input/findAllLotsDto';
+import { CreateLotDto } from 'src/dto/input/lot/createLotDto';
+import { FindLotDto } from 'src/dto/input/lot/findLotDto';
+import { FindAllLotsDto } from 'src/dto/input/lot/findAllLotsDto';
 
 @Controller('lot')
 export class LotController {
