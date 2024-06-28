@@ -1,6 +1,5 @@
 import { Controller, Post, Body, ValidationPipe } from '@nestjs/common';
 import { AnimalService } from './animal.service';
-import { Lot } from 'src/entities/lot';
 import { CreateAnimalDto } from 'src/dto/input/createAnimalDto';
 
 @Controller('animal')
