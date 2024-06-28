@@ -1,4 +1,19 @@
+<h1>Overview</h1>
 
+<p> This project serves as a Backend For Frontend (BFF) application designed to manage lots and animals within each lot. It leverages Redis for caching queries to optimize performance. Built using Node.js and NestJS with TypeScript. </p>
+
+<h1>Running the app</h1>
+Before running the app, you should create a .env file based on the .env.example file. Also, take a look at the docker-compose.yaml file to check configurations.
+<pre><code>
+docker compose up -d
+npm install
+npm run start:dev
+</code></pre>
+
+<h1>Running the tests</h1>
+<pre><code>
+npm run tests
+</code></pre>
 <h2> Tests <h2>
 
 <h3>Creating a LOT</h3>
@@ -25,6 +40,6 @@
 
 ![image](https://github.com/k-santos/farm-nest-js/assets/143345722/c647e1ab-762c-40cb-b9a7-10cf7e015d64)
 
-<h3>List LOT by name </h3>
+<h3>List lots by name </h3>
 
 ![image](https://github.com/k-santos/farm-nest-js/assets/143345722/5bcb1bd4-9f7e-4e38-bdb3-b778c1883da0)
