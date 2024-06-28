@@ -6,6 +6,7 @@ import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { Redis } from 'ioredis';
 import { FindAnimalDto } from 'src/dto/input/findAnimalDto';
 import { OutputFindAnimalDto } from 'src/dto/output/resultFindAnimalDto';
+import { DeleteAnimalDto } from 'src/dto/input/deleteAnimalDto';
 
 @Injectable()
 export class AnimalService {
@@ -28,6 +29,23 @@ export class AnimalService {
     await this.invalidateFindAllLotsCache();
     await this.clearAnimalCache();
     return animal;
+  }
+
+  async deleteAnimal(deleteAnimalDto: DeleteAnimalDto) {
+    const lot = lots.find((lot) =>
+      lot.animals.find(
+        (animal) => animal.code === (deleteAnimalDto.code as unknown as number),
+      ),
+    );
+    if (lot) {
+      const animal = lot.animals.find(
+        (animal) => animal.code === (deleteAnimalDto.code as unknown as number),
+      );
+      lot.removeAnimal(animal.code);
+      await this.clearAnimalCache();
+      return animal;
+    }
+    return undefined;
   }
 
   async findAnimals(findAnimalDto: FindAnimalDto) {
