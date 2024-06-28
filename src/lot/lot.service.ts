@@ -9,7 +9,6 @@ import { Redis } from 'ioredis';
 import { lots } from 'src/database/seed';
 import { CreateLotDto } from 'src/dto/input/lot/createLotDto';
 import { FindLotDto } from 'src/dto/input/lot/findLotDto';
-import { FindAllLotsDto } from 'src/dto/input/lot/findAllLotsDto';
 import { DeleteLotDto } from 'src/dto/input/lot/deleteLotDto';
 import { clearCache } from 'src/util/redis';
 
@@ -97,37 +96,5 @@ export class LotService {
     lots.splice(lotIndex, 1);
     await clearCache(this.redis);
     return { message: 'Lot deleted successfully' };
-  }
-
-  async findAllLots(findAllLotsDto: FindAllLotsDto) {
-    if (!findAllLotsDto.order) {
-      findAllLotsDto.order = 'ASC';
-    }
-    if (!findAllLotsDto.criteria) {
-      findAllLotsDto.criteria = 'NAME';
-    }
-    const cacheKey = `lots:${findAllLotsDto.criteria}:${findAllLotsDto.order}`;
-    const cachedLots = await this.redis.get(cacheKey);
-
-    if (cachedLots) {
-      return JSON.parse(cachedLots) as Lot[];
-    }
-
-    const lotsSorted = lots.sort((a, b) => {
-      if (findAllLotsDto.order === 'ASC') {
-        if (findAllLotsDto.criteria === 'NAME') {
-          return a.name.localeCompare(b.name);
-        }
-        return a.code - b.code;
-      } else {
-        if (findAllLotsDto.criteria === 'NAME') {
-          return b.name.localeCompare(a.name);
-        }
-        return b.code - a.code;
-      }
-    });
-
-    await this.redis.set(cacheKey, JSON.stringify(lotsSorted));
-    return lotsSorted;
   }
 }
