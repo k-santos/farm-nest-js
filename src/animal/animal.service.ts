@@ -89,6 +89,45 @@ export class AnimalService {
 
       return resultSorted;
     }
+
+    if (findAnimalDto.criteria === 'CODE') {
+      const result = lots.find((lot) =>
+        lot.animals.find(
+          (animal) =>
+            animal.code === (findAnimalDto.value as unknown as number),
+        ),
+      );
+      if (result) {
+        const animal = result.animals.find(
+          (animal) =>
+            animal.code === (findAnimalDto.value as unknown as number),
+        );
+        return {
+          lotName: result.name,
+          lotCode: result.code,
+          name: animal.name,
+          code: animal.code,
+        };
+      }
+    }
+
+    if (findAnimalDto.criteria === 'LOT_CODE') {
+      const result = lots.find(
+        (lot) => lot.code === (findAnimalDto.value as unknown as number),
+      );
+      if (result) {
+        return result.animals
+          .map((animal) => {
+            return {
+              lotName: result.name,
+              lotCode: result.code,
+              name: animal.name,
+              code: animal.code,
+            };
+          })
+          .flat();
+      }
+    }
   }
 
   private async invalidateFindAllLotsCache() {
