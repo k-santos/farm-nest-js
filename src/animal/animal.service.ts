@@ -38,14 +38,11 @@ export class AnimalService {
       ),
     );
     if (lot) {
-      const animal = lot.animals.find(
-        (animal) => animal.code === (deleteAnimalDto.code as unknown as number),
-      );
-      lot.removeAnimal(animal.code);
+      lot.removeAnimal(deleteAnimalDto.code as unknown as number);
       await clearCache(this.redis);
-      return animal;
+      return { message: 'Animal deleted successfully' };
     }
-    return undefined;
+    throw new NotFoundException('Animal not found');
   }
 
   async findAnimals(findAnimalDto: FindAnimalDto) {
