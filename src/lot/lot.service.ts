@@ -9,8 +9,6 @@ import { FindAllLotsDto } from 'src/dto/input/findAllLotsDto';
 
 @Injectable()
 export class LotService {
-  private lots: Lot[] = [];
-
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
   createLot(createLotDto: CreateLotDto) {
@@ -31,7 +29,7 @@ export class LotService {
       if (cachedLot) {
         return JSON.parse(cachedLot) as Lot;
       }
-      const lot = this.lots.find((l) => findLotDto.name === l.name);
+      const lot = lots.find((l) => findLotDto.name === l.name);
       if (lot) {
         await this.redis.set(`lot:${findLotDto.name}`, JSON.stringify(lot));
         return lot;
@@ -45,7 +43,7 @@ export class LotService {
         return JSON.parse(cachedLot) as Lot;
       }
 
-      const lot = this.lots.find((l) => findLotDto.code === l.code);
+      const lot = lots.find((l) => findLotDto.code === l.code);
       if (lot) {
         await this.redis.set(`lot:${findLotDto.code}`, JSON.stringify(lot));
         return lot;
@@ -61,18 +59,28 @@ export class LotService {
     if (!findAllLotsDto.criteria) {
       findAllLotsDto.criteria = 'NAME';
     }
+    const cacheKey = `lots:${findAllLotsDto.criteria}:${findAllLotsDto.order}`;
+    const cachedLots = await this.redis.get(cacheKey);
 
-    return lots.sort((a, b) => {
-      if (findAllLotsDto.order == 'ASC') {
+    if (cachedLots) {
+      return JSON.parse(cachedLots) as Lot[];
+    }
+
+    const lotsSorted = lots.sort((a, b) => {
+      if (findAllLotsDto.order === 'ASC') {
         if (findAllLotsDto.criteria === 'NAME') {
           return a.name.localeCompare(b.name);
         }
         return a.code - b.code;
+      } else {
+        if (findAllLotsDto.criteria === 'NAME') {
+          return b.name.localeCompare(a.name);
+        }
+        return b.code - a.code;
       }
-      if (findAllLotsDto.criteria === 'NAME') {
-        return b.name.localeCompare(a.name);
-      }
-      return b.code - a.code;
     });
+
+    await this.redis.set(cacheKey, JSON.stringify(lotsSorted));
+    return lotsSorted;
   }
 }
