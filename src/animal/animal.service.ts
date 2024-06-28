@@ -26,6 +26,7 @@ export class AnimalService {
     const animal = new Animal(createAnimalDto.name, createAnimalDto.code);
     foundLot.addAnimal(animal);
     await this.invalidateFindAllLotsCache();
+    await this.clearAnimalCache();
     return animal;
   }
 
@@ -80,6 +81,13 @@ export class AnimalService {
           await this.redis.del(keys);
         }
       }
+    }
+  }
+
+  async clearAnimalCache() {
+    const keys = await this.redis.keys('animals:*');
+    if (keys.length > 0) {
+      await this.redis.del(keys);
     }
   }
 
